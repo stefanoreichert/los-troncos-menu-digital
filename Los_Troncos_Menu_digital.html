@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Menú · Los Troncos Resto Bar</title>
+<style>
+:root{--brown:#4a2c14;--cream:#fff0dc;--outer:#f2dfbf;--rust:#c0561f}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:112px}
+body{margin:0;background:var(--outer);color:var(--brown);font-family:"Avenir Next","Century Gothic","Segoe UI",system-ui,sans-serif}
+.cover{min-height:100vh;padding:5vh 5vw;display:flex}
+.cover .in{flex:1;background:var(--brown);color:var(--outer);position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;overflow:hidden;padding:30vh 16px 16vh}
+.cover svg{position:absolute;top:0;left:0;width:100%;height:42%}
+.menu-t{font-size:2.4rem;font-weight:600;margin:0 0 18px}
+.logo{display:flex;flex-direction:column;align-items:center;line-height:1}
+.logo .a{font-size:2.3rem;font-weight:300;letter-spacing:2px}
+.logo .b{font-family:Georgia,"Times New Roman",serif;font-weight:700;font-size:4.4rem;letter-spacing:-3px;margin:-2px 0 4px}
+.logo .c{font-size:1.15rem;font-weight:400;letter-spacing:.5px}
+.cover .frase{position:absolute;right:6%;bottom:5%;font-family:"Segoe Script","Bradley Hand","Comic Sans MS",cursive;font-size:1.6rem}
+.cover button{margin-top:34px;background:none;border:2px solid var(--outer);color:var(--outer);border-radius:30px;padding:10px 26px;font:inherit;cursor:pointer}
+nav{position:sticky;top:0;z-index:10;background:var(--brown);display:flex;gap:6px;overflow-x:auto;padding:10px}
+nav a{flex:none;color:var(--outer);text-decoration:none;padding:6px 13px;border-radius:16px;font-size:.88rem;border:1px solid rgba(242,223,191,.35)}
+nav a.on{background:var(--outer);color:var(--brown)}
+nav .search-toggle{flex:none;position:sticky;left:0;z-index:2;border:1px solid rgba(242,223,191,.55);background:transparent;color:var(--outer);border-radius:18px;padding:6px 13px;font:inherit;font-size:.88rem;cursor:pointer;white-space:nowrap}
+.search-area{display:none;position:sticky;top:53px;z-index:9;background:var(--outer);border-bottom:1px solid rgba(74,44,20,.2);padding:12px max(16px,calc((100vw - 940px)/2));box-shadow:0 2px 7px rgba(74,44,20,.09)}
+.search-area.active{display:block}
+.search-inner{display:flex;align-items:center;gap:8px}
+.search-inner input{min-width:0;flex:1;background:var(--cream);border:1px solid rgba(74,44,20,.35);border-radius:24px;color:var(--brown);padding:12px 16px;font:inherit;outline-offset:2px}
+.search-inner button{border:1px solid var(--brown);border-radius:20px;color:var(--brown);background:transparent;padding:10px 14px;cursor:pointer;font:inherit}
+.search-meta{font-size:.8rem;margin:7px 3px 0}
+.no-results{display:none;padding:48px 14px;text-align:center;font-size:1rem}
+.no-results.show{display:block}
+.paper{background:var(--cream);max-width:960px;margin:0 auto;padding:10px 26px 30px}
+.sec{padding:30px 0 22px;border-bottom:3px solid var(--rust)}
+.sec:last-child{border:0}
+h2{margin:0 0 6px;font-size:1.9rem;font-weight:700;letter-spacing:-.5px}
+.note{font-size:.85rem;margin:0 0 12px}
+.cols{column-count:2;column-gap:40px;margin-top:14px}
+@media(max-width:700px){.cols{column-count:1}.logo .b{font-size:3.3rem}}
+.it[hidden],.sec[hidden]{display:none!important}
+.it{break-inside:avoid;margin:0 0 12px;position:relative;border-radius:4px}
+.it[data-s]{cursor:pointer;transition:background .15s ease}
+.it[data-s]:hover,.it[data-s]:focus-visible{background:rgba(192,86,31,.08)}
+.it[data-s]:focus-visible{outline:2px solid var(--rust);outline-offset:3px}
+.it .detail-hint{opacity:0;color:var(--rust);font-size:.7rem;font-style:normal;margin-left:4px}
+.it:hover .detail-hint,.it:focus-visible .detail-hint{opacity:1}
+@media(hover:none){.it .detail-hint{opacity:.75}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.it{transition:none}}
+.it.f{display:flex;gap:10px;cursor:pointer}
+.it.f .bd{flex:1;min-width:0}
+.th{width:64px;height:64px;object-fit:cover;border-radius:8px;flex:none}
+.r{display:flex;align-items:flex-end;font-size:1.08rem}
+.dots{flex:1;border-bottom:2px dotted var(--rust);margin:0 6px 5px;min-width:14px}
+.p{font-style:italic;font-weight:800;font-size:1.15rem;white-space:nowrap}
+.d{font-style:italic;font-size:.82rem;line-height:1.25;margin-top:1px;max-width:92%}
+.sub{font-style:italic;font-size:.85rem}
+.sub .p{font-size:.9rem}
+.pie{text-align:center;padding:26px 0 4px;font-size:.85rem}
+.pie .logo .a{font-size:1.1rem}.pie .logo .b{font-size:2rem;letter-spacing:-2px}.pie .logo .c{font-size:.6rem}
+dialog{border:none;border-radius:14px;padding:0;max-width:440px;width:92%;background:var(--cream);color:var(--brown)}
+dialog::backdrop{background:rgba(0,0,0,.65)}
+dialog img{width:100%;aspect-ratio:1/1;object-fit:cover;display:block}
+dialog .x{padding:20px}
+dialog h3{margin:0 0 9px;font-size:1.5rem}
+dialog .modal-cat{font-size:.76rem;letter-spacing:.08em;text-transform:uppercase;color:var(--rust);margin:0 0 8px}
+dialog .modal-price{font-size:1.2rem;font-weight:800;font-style:italic;margin:8px 0}
+dialog .modal-desc{font-size:.94rem;line-height:1.5}
+dialog .modal-variants{border-top:1px solid rgba(74,44,20,.22);margin-top:15px;padding-top:12px}
+dialog .modal-variant{display:flex;justify-content:space-between;gap:12px;margin:8px 0;font-size:.91rem}
+@media(max-width:700px){nav{gap:4px}nav a{font-size:.8rem;padding:7px 10px}.search-area{top:50px}}
+dialog button{margin-top:12px;width:100%;padding:10px;border:0;border-radius:8px;background:var(--brown);color:var(--cream);font:inherit;cursor:pointer}
+.wa{position:fixed;right:14px;bottom:14px;background:#25a244;color:#fff;text-decoration:none;padding:12px 18px;border-radius:26px;font-size:.95rem;box-shadow:0 2px 8px rgba(0,0,0,.35);z-index:20}
+
+/* Mejoras funcionales integradas sin alterar la estética de la carta */
+:root{--line:rgba(74,44,20,.22)}
+body{padding-bottom:74px}
+nav{scrollbar-width:thin}
+nav a:focus-visible,button:focus-visible{outline:3px solid var(--rust);outline-offset:2px}
+.it[data-s]{padding:4px 3px;margin-left:-3px;margin-right:-3px}
+.it[data-s] .tap-hint{display:none}
+.it[data-s]:hover .tap-hint{display:inline;font-size:.68rem;color:var(--rust);font-style:normal;white-space:nowrap}
+.cart-fab{position:fixed;bottom:15px;right:16px;z-index:20;border:2px solid var(--outer);background:var(--brown);color:var(--outer);box-shadow:0 4px 18px #4a2c1444;border-radius:28px;padding:13px 19px;font-family:inherit;font-size:.93rem;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:11px}
+.cart-count{min-width:25px;height:25px;border-radius:50%;background:var(--outer);color:var(--brown);display:inline-flex;align-items:center;justify-content:center;padding:2px 5px;font-size:.8rem}
+.cart-backdrop{position:fixed;inset:0;background:#190e08a8;z-index:29;display:none}
+.cart-backdrop.active{display:block}
+.cart-panel{position:fixed;right:0;top:0;bottom:0;width:min(440px,100%);z-index:30;background:var(--cream);box-shadow:-6px 0 28px #0003;display:flex;flex-direction:column;transform:translateX(105%);visibility:hidden;transition:transform .25s ease,visibility .25s}
+.cart-panel.active{transform:translateX(0);visibility:visible}
+.cart-head{display:flex;align-items:center;justify-content:space-between;padding:18px 20px;background:var(--brown);color:var(--outer)}
+.cart-head h2{font-size:1.4rem;margin:0}
+.icon-button{border:1px solid currentColor;background:transparent;color:inherit;border-radius:50%;width:35px;height:35px;font-size:1.3rem;cursor:pointer}
+.cart-list{overflow:auto;flex:1;padding:14px 20px}
+.cart-item{padding:13px 0;border-bottom:1px solid var(--line)}
+.cart-item-title{display:flex;justify-content:space-between;gap:10px;font-weight:600}
+.cart-item small{display:block;margin-top:4px;color:#795438;font-size:.85rem;line-height:1.4}
+.cart-controls{display:flex;align-items:center;justify-content:space-between;margin-top:10px;gap:8px}
+.qty-group{display:flex;align-items:center;gap:12px}
+.qty-group button{border:1px solid var(--brown);border-radius:50%;background:transparent;color:var(--brown);width:30px;height:30px;font-size:1.2rem;cursor:pointer}
+.remove-line{background:none;border:0;color:#8d3918;text-decoration:underline;cursor:pointer;font:inherit;font-size:.8rem}
+.cart-footer{border-top:2px solid var(--rust);padding:16px 20px 18px;background:var(--cream);max-height:60%;overflow-y:auto}
+.total-line{display:flex;align-items:center;justify-content:space-between;font-size:1.2rem;font-weight:800;margin-bottom:9px}
+.cart-footer p{font-size:.78rem;line-height:1.4;margin:4px 0 12px}
+.cart-footer label,.modal-field label{display:block;font-size:.87rem;font-weight:600;margin-bottom:5px}
+.cart-footer input,.cart-footer select,.cart-footer textarea,.modal-field select,.modal-field input,.modal-field textarea{display:block;width:100%;padding:11px 12px;border:1px solid #b69a7e;border-radius:8px;background:#fffaf3;color:var(--brown);font:inherit;margin:0 0 11px}
+#deliveryFields[hidden],#deliveryError[hidden]{display:none!important}
+#deliveryError{color:#a32211;font-size:.84rem;font-weight:700;margin:-3px 0 12px}
+#deliveryAddress:invalid{box-shadow:none}
+.checkout{width:100%;padding:13px 12px;border:0;border-radius:8px;background:var(--brown);color:var(--outer);font-family:inherit;font-size:1rem;font-weight:600;cursor:pointer}
+.checkout[aria-disabled="true"]{opacity:.5;cursor:not-allowed}
+.copy-order{width:100%;padding:11px;border:1px solid var(--brown);border-radius:8px;background:transparent;color:var(--brown);font:inherit;font-weight:600;cursor:pointer;margin-top:9px}
+#waHelp{font-size:.8rem;margin:7px 0!important}
+.modal-field{margin:16px 0 0}
+.modal-field label{margin-top:8px}
+.modal-summary{font-size:1.03rem;font-weight:700;margin-top:12px}
+#dlg{max-height:90vh;overflow-y:auto}
+#dlg .modal-actions{display:flex;gap:8px;margin-top:15px}
+#dlg .modal-actions button{margin:0}
+#dlg .secondary{background:transparent;color:var(--brown);border:1px solid var(--brown);flex:0 0 35%}
+#dlg .primary{flex:1}
+#dlg .modal-image{max-height:210px;aspect-ratio:2/1;object-fit:cover}
+.cart-empty{line-height:1.6;margin:30px 0;text-align:center}
+.notice{display:none;position:fixed;left:50%;bottom:78px;transform:translateX(-50%);background:var(--brown);color:var(--outer);z-index:40;border-radius:20px;padding:11px 17px;box-shadow:0 3px 12px #0004;font-size:.9rem;white-space:nowrap;max-width:95vw}
+.notice.show{display:block}
+@media(max-width:700px){.cover{padding:3vh 3vw}.cover .in{padding-left:12px;padding-right:12px}.logo .b{font-size:clamp(2.65rem,11vw,4rem)}.paper{padding:10px 17px 30px}.cart-fab{right:10px;bottom:10px}.search-area{top:49px;padding:10px 12px}.cart-panel{max-width:100%}.cart-footer{max-height:64%}}
+@media(prefers-reduced-motion:reduce){.cart-panel{transition:none}}
+
+
+/* Indicador de acción integrado a la carta original */
+.it[data-s]{padding-right:40px;min-height:35px}
+.it[data-s] .item-plus{position:absolute;right:2px;top:3px;width:29px;height:29px;border:1.5px solid var(--rust);border-radius:50%;color:var(--rust);display:flex;align-items:center;justify-content:center;font-family:Arial,sans-serif;font-weight:500;font-size:23px;line-height:1;background:transparent;transition:background .15s,color .15s,transform .15s;pointer-events:none}
+.it[data-s]:hover .item-plus,.it[data-s]:focus-visible .item-plus{background:var(--brown);border-color:var(--brown);color:var(--cream);transform:scale(1.06)}
+.it[data-s] .r{min-width:0}
+.it[data-s] .r>span{overflow-wrap:anywhere}
+.it[data-s] .p{font-size:clamp(.96rem,1.15vw,1.15rem)}
+@media(max-width:700px){
+  .it[data-s]{padding:9px 42px 9px 4px;min-height:49px;margin-bottom:5px;border-bottom:1px solid rgba(192,86,31,.15)}
+  .it[data-s] .item-plus{top:50%;right:4px;transform:translateY(-50%);width:34px;height:34px;font-size:25px;background:rgba(192,86,31,.04)}
+  .it[data-s]:hover .item-plus,.it[data-s]:focus-visible .item-plus{transform:translateY(-50%);background:var(--brown);color:var(--cream)}
+  .it[data-s] .r{font-size:1rem;align-items:baseline}
+  .it[data-s] .p{font-size:1rem}
+  .it[data-s] .d{font-size:.8rem;max-width:100%}
+  .cols{column-gap:0}
+}
+@media(max-width:370px){.it[data-s]{padding-right:40px}.it[data-s] .p{font-size:.93rem}.it[data-s] .r{font-size:.94rem}}
+</style>
+</head>
+<body>
+<div class="cover"><div class="in">
+  <svg id="rings" viewBox="0 0 770 320" preserveAspectRatio="xMidYMin slice" fill="none" stroke="#f2dfbf" stroke-width="5" stroke-linejoin="round"></svg>
+  <h1 class="menu-t">MENÚ</h1>
+  <div class="logo"><span class="a">LOS</span><span class="b">TRONCOS</span><span class="c">RESTO BAR</span></div>
+  <button id="ver" type="button">Ver carta</button>
+  <div class="frase">que lo disfrutes!</div>
+</div></div>
+<nav id="nav" aria-label="Categorías del menú"></nav>
+<div id="searchArea" class="search-area"><div class="search-inner"><input id="searchInput" type="search" placeholder="Buscar platos o ingredientes..." aria-label="Buscar en la carta"><button type="button" id="clearSearch">Limpiar</button></div><p id="searchMeta" class="search-meta" aria-live="polite">Escribí para encontrar un plato.</p></div>
+<div class="paper" id="carta"></div>
+<button type="button" id="cartFab" class="cart-fab" aria-controls="cartPanel" aria-expanded="false">Mi pedido <span id="cartCount" class="cart-count">0</span></button>
+<div class="cart-backdrop" id="cartBackdrop"></div>
+<aside id="cartPanel" class="cart-panel" role="dialog" aria-modal="true" aria-label="Tu pedido" aria-hidden="true">
+ <header class="cart-head"><h2>Tu pedido</h2><button id="cartClose" type="button" class="icon-button" aria-label="Cerrar carrito">×</button></header>
+ <div class="cart-list" id="cartList"></div>
+ <div class="cart-footer"><div class="total-line"><span>Subtotal</span><span id="cartTotal">$0</span></div>
+ <p id="pendingPrices"></p><label for="customerName">Tu nombre (opcional)</label><input id="customerName" autocomplete="name" placeholder="¿A nombre de quién?">
+ <label for="orderType">Tipo de pedido</label><select id="orderType"><option value="Retiro en el local">Retiro en el local</option><option value="Delivery">Delivery</option></select>
+ <div id="deliveryFields" hidden>
+  <label for="deliveryAddress">Dirección de entrega *</label><input id="deliveryAddress" autocomplete="street-address" placeholder="Calle, número, barrio o ubicación" maxlength="240">
+  <label for="deliveryReference">Referencia de entrega (opcional)</label><input id="deliveryReference" placeholder="Ej.: portón negro, entre dos calles..." maxlength="240">
+  <label for="deliveryPhone">Teléfono de contacto (opcional)</label><input id="deliveryPhone" type="tel" autocomplete="tel" placeholder="Número para contactar al recibir" maxlength="40">
+  <p id="deliveryError" role="alert" hidden>Ingresá la dirección de entrega para continuar.</p>
+ </div>
+ <label for="orderNotes">Observaciones generales (opcional)</label><textarea id="orderNotes" rows="2" placeholder="Ej.: sin cebolla, aclaraciones..."></textarea>
+ <a id="checkout" class="checkout" href="#" target="_blank" rel="noopener noreferrer" aria-disabled="true" style="display:block;text-align:center;text-decoration:none">Continuar en WhatsApp</a>
+ <button type="button" id="copyOrder" class="copy-order">Copiar detalle del pedido</button>
+ <p id="waHelp">Se abrirá WhatsApp con el pedido listo para enviar al <strong>+54 9 3743 611895</strong>. Si tu navegador impide abrirlo, usá «Copiar detalle del pedido».</p>
+ <p>El pedido se enviará como mensaje para su confirmación. El subtotal no incluye cargos adicionales y los precios están sujetos a confirmación.</p></div>
+</aside>
+<div id="notice" class="notice" role="status" aria-live="polite"></div>
+<dialog id="dlg"></dialog>
+
+<script>
+/* Carta transcrita del PDF original */
+const WHATSAPP="5493743611895";
+const F="Papas Fritas";
+const S=[
+["Entradas","","Entradas",[
+ ["Papas Fritas simples","$11000"],["Papas Fritas gratinadas","$14000","con queso tybo"],
+ ["Papas Fritas Los Troncos","$16000","queso cheddar - panceta - cebollita de verdeo"],
+ ["Mandioca Frita","$10000"],["Bastones de Muzzarela","$15500"],
+ ["Ensalada César","$13000","hojas verdes - pechuga de pollo - queso parmesano - croutons - salsa César"]]],
+["Picadas","","Picadas",[
+ ["Incluye","","milanesa - huevo relleno - empanaditas - jamón - snack de pollo y acelga - quesos - papas y mandiocas fritas - pancitos - salsas"],
+ ["Para 2 personas","$27000"],["Para 4 personas","$39000"],["Para 6 personas","$49000"]]],
+["Empanadas","","Empanadas",[
+ ["Jamón y Queso","$1800"],["Carne Molida","$1800"],["Cebolla y Queso","$1800"],["Pollo","$1800"],["Verdura","$1800"],["Humita","$1800"],
+ ["Roquefort y Nueces","$2000"],["Cuatro Quesos","$2000"],["Jamón Crudo y Mozza","$2000"],
+ ["Capresse","$1800","tomate - mozzarella - albahaca"],
+ ["Árabe","$2000","carne molida especial - cebolla - morrón (cocinados al limón)"],
+ ["Carne a Cuchillo","$2200","carne de nalga en cubos - panceta - cebolla - morrón"],
+ ["Panceta","$2000","mozzarella - cebolla caramelizada - panceta"]]],
+["Sándwiches","","Sándwiches",[
+ ["Loro Negro","$15000","mila de ternera - lechuga - tomate - huevo - jamón y queso + papas fritas"],
+ ["Guatembú Blanco","$13000","mila de pollo - lechuga - tomate - huevo - jamón y queso + papas fritas"],
+ ["Angelim Rojo","$16000","Nalga cortada a cuchillo - panceta - cebolla caramelizada - tomate - queso gratinado - rúcula + papas fritas"],
+ ["Los Troncos","$16000","bife de lomo - panceta - queso cheddar - rúcula - tomate + papas fritas"],
+ ["Ibirá","$15000","pan árabe - carne desmechada al vino tinto - cebolla y morrones salteados - salsa de ajo - lechuga o rucula + papas fritas"],
+ ["Guayubira","$13000","pan árabe - jamón crudo - queso crema - rúcula - tomates secos hidratados en oliva + papas fritas"],
+ ["Mediterráneo","$13000","pan árabe - pechuga desmenuzada - queso crema - crocante de panceta - aceitunas - lechuga o rucula + papas fritas"],
+ ["Sándwich de bondiola BBQ","$16000","Bondiola desmechada al BBQ, queso cheddar, cebolla morada y rucula"],
+ ["Tostado","$8000","pan de miga - jamón y queso"],
+ ["Tostado gratinado","$10000","pan de miga - jamón y queso (con cobertura de queso gratinado)"],
+ ["Veggie Los Troncos","$8500","medallón veggie - queso tybo - lechuga - tomate - alioli"]]],
+["Hamburguesas","","Hamburguesas",[
+ ["Lapacho Negro","$10000","carne - jamón y queso - lechuga - tomate - huevo frito + papas fritas"],
+ ["Cedro Misionero","$11000","carne - jamón y queso - panceta - lechuga - tomates - huevo frito + papas fritas"],
+ ["Araucaria","$12500","doble carne - jamón y queso - lechuga - tomates - huevo frito + papas fritas"],
+ ["Cancharana","$11000","carne - jamón y queso - lechuga - tomate - huevo frito - salsa de mayonesa con choclo + papas fritas"],
+ ["María Preta","$12500","carne - jamón y queso provolone - tomate - cebolla caramelizada - rúcula - huevo frito + papas fritas"],
+ ["Laurel Negro","$12500","doble carne - panceta - queso roquefort - lechuga - tomate - huevo frito + papas fritas"],
+ ["Tacuarembó","$13000","doble carne - cebolla caramelizada - queso cheddar - panceta + papas fritas"],
+ ["Chicken Burger","$10500","pechuga crispy o grillada - queso cheddar - lechuga - tomate - mayonesa de ajo"],
+ ["Kid Burger","$8000","carne - jamón y queso + papas fritas"],
+ ["Cajita Feliz Los Troncos","","hamburguesas Lapacho Negro - papas fritas Los Troncos - baño de cheddar","",[["ONE: 2 hamburguesas","$25000"],["TWO: 3 hamburguesas","$34000"]]]]],
+["Pizzas","","Pizzas",[
+ ["Timbó","$14000","queso mozzarella - salsa de tomate - aceitunas - orégano"],
+ ["Palo Rosa","$16000","queso mozzarella - salsa de tomate - jamón - cherrys - albahaca - aceitunas"],
+ ["Palmito","$16000","queso mozzarella - salsa de tomate - palmitos - huevo duro"],
+ ["Caña Fístola","$19000","queso mozzarella - salsa de tomate - queso roquefort - nueces"],
+ ["Anchico","$19000","queso mozzarella - cebolla caramelizada - rúcula - jamón crudo"],
+ ["4 Quesos","$19000","queso mozzarella - queso roquefort - queso provolone - queso sardo - salsa de tomate"],
+ ["Petiribí","$16000","queso mozzarella - salsa de tomate - calabresa - morrones asados"],
+ ["Mora Blanca","$15000","queso mozzarella - cebolla - aceite de oliva"],
+ ["Incienso","$16000","queso mozzarella - salsa de tomate - huevo duro - choclo - aceitunas"],
+ ["Anchoas","$20000","queso mozzarella - salsa de tomate - anchoas y aceitunas negras."],
+ ["Ananá","$18000","queso mozzarella - salsa de tomate - jamón crudo - ananá - cerezas"],
+ ["Pindó","$18000","queso mozzarella - salsa de tomate - bondiola - tomate - aceitunas - aceite de ajo"],
+ ["Kurupí","$22000","queso mozzarella - salsa de tomate - carne de ternera picada - cebolla caramelizada"],
+ ["Urunday","$18000","queso mozzarella - salsa de tomate - queso roquefort - peras"],
+ ["Araticú","$28000","Pizza rellena con queso mozzarella - queso provolone - jamón - morrones asados - cebolla - aceite de oliva - orégano"],
+ ["Champiñones","$20000","queso mozzarella - salsa de tomate - champiñones - ajo"],
+ ["Carandaí","$16000","queso mozzarella - salsa de tomate - jamón - morrones asados - aceitunas"],
+ ["Los Troncos","$20000","queso mozzarella - salsa de tomate - queso cheddar - panceta"],
+ ["Hambur Pizza","$27000","queso mozzarella - salsa de tomate - medallón de carne - tomate - huevo frito"]]],
+["Milanesas","Sin guarnición","Milanesas",[
+ ["De Ternera","$11000","carne de ternera."],["De pollo","$10000","Suprema de pollo"],
+ ["A Caballo","$15000","carne de ternera o pollo - dos huevo frito."],
+ ["Napolitana","$16500","carne de ternera o de pollo - salsa de tomate - jamón - queso."],
+ ["A la Suiza","$17000","carne de ternera o pollo - salsa blanca - queso gratinado."],
+ ["Agridulce","$17000","carne de ternera- cebolla caramelizada - queso azul - pera grillada - miel."],
+ ["Milanesa al roquefort","$17000","carne de ternera o de pollo - cebolla caramelizada, muzza y roquefort"],
+ ["Los Troncos","$17000","carne de ternera - queso mozzarella - queso cheddar - panceta - huevo frito."]]],
+["Carnes","Sin guarnición","Carnes",[
+ ["Lomo al Champiñón","$18000","medallón de lomo - champiñones en salsa de crema y vino blanco."],
+ ["Lomo a la Mostaza","$18000","medallón de lomo - salsa de crema con mostaza y pimienta."],
+ ["Lomo a la Pimienta","$18000","medallón de lomo - salsa de crema con pimienta negra."],
+ ["Lomo a la Plancha","$18000","medallón de lomo a la plancha."],
+ ["Lomo a la Suiza","$18000","medallón de lomo - salsa blanca con crema y queso."],
+ ["Bife de Chorizo","$18000","bife de chorizo a la plancha"],
+ ["Suprema a la plancha","$12000","Suprema a la plancha."],
+ ["Suprema a la mostaza","$15000","Suprema a la plancha, con crema y mostaza."]]],
+["Milanesas de pescado","Sin guarnición","Pescado",[
+ ["De Merluza","$11000","carne de merluza."],
+ ["De Merluza Napolitana","$13000","carne de merluza - salsa de tomates - queso mozzarella."],
+ ["De Merluza al Roquefort","$14000","carne de merluza - salsa de tomates - queso mozzarella - queso roquefort."]]],
+["Guarniciones","","Guarniciones",[
+ ["Papas Fritas","$5000"],["Mandioca Frita","$5000"],["Puré de Papa","$5000"],["Puré Mixto","$5000"],["Ensalada Mixta","$5000"]]],
+["Pastas","","Pastas",[
+ ["Tallarines","$14000"],["Sorrentinos","$18000","jamón y queso"],["Ravioles","$16000"],
+ ["Ñoquis de Papa","$16000"],["Pastel de Papa","$16000"],["Canelones","$16000","carne - verdura - choclo"]]],
+["Salsas","","Salsas",[["Bolognesa"],["Bechamel"],["4 Quesos"],["Roja"]]],
+["Postres","","Postres",[
+ ["Flan Casero","$5500"],["Mamón en Almíbar","$5500"],["Helado Arcor","consultar"],
+ ["Panqueque de ddl","$5500"],["Crumble de manzana","$7000"]]],
+["Sin alcohol","","Sin alcohol",[
+ ["Coca-Cola - Sprite - Fanta - Pepsi","","","",[["1,5 LT","$7000"],["1 L","$5000"],["500 ML","$3000"]]],
+ ["Agua Mineral","","","",[["1,5 LT","$4500"],["500 ML","$2500"]]],
+ ["Agua Saborizada","","","",[["1,5 LT","$4500"]]],
+ ["Jugos Naturales","","","",[["Limonada","$7000"],["Limonada con menta y jengibre","$7000"],["Jugo de maracuyá","$8000"]]]]],
+["Cervezas","","Cervezas",[
+ ["Stella Arotis","$8000"],["Patagonia","$7500"],["Brahama","$7000"],
+ ["Quilmes","$7000","Original - Stout"],["Budweiser","$7000"],
+ ["Corona","","","",[["710 Ml","$7500"],["473ml","$5000"],["330 Ml","$5000"]]],
+ ["Patagonia Lata","","","",[["Bohemian Pilsener","$5000"],["Amber Lager","$5000"],["24.7","$5000"]]],
+ ["Stella artois Lata","$5000","473 Ml - 330 Ml"]]],
+["Tragos","","Tragos",[
+ ["Aperol","$7500","Aperol - jugo de naranja/agua tónica"],["Fernet","$7000","Fernet - Coca-Cola"],
+ ["Fernet XL","$11000","Fernet - Coca-Cola"],["Gancia","$6000","Gancia - Sprite"],
+ ["Cuba Libre","$8000","Ron Bacardi - Coca-Cola - limón"],["Gin Tonic","$7000","Gin clásico/limón - agua tónica"],
+ ["Gin Tonic Frutos Rojos","$8000","Gin de frutos rojos - agua tónica"],["Gin Tonic de limòn","$7000","Gin de limòn - agua tónica"],
+ ["Campari","$7000","Campari - jugo de naranja/agua tónica"],
+ ["Caipiriña Maracuya","$7000","Velho Barreiro - pulpa de maracuyá"],["Caipiriña","$7000","Velho Barreiro - jugo de limón"],
+ ["Caipiriña Maracuya","$8000","Velho Barreiro - pulpa de maracuyá"],["Caipiriña Frutos rojos","$8000","Velho Barreiro - limón y frutos rojos"],
+ ["Daikiri","$8000","Anana/Durazno/Maracuyá - Vodka - leche condensada - fruta de estación"],
+ ["Margarita Bull dog","$10000","Vodka - leche condensada - fruta de estación"]]],
+["Vinos","","Vinos",[
+ ["DV Catena","","","",[["Malbec - Malbec","$28000"],["Cabernet - Malbec","$20000"]]],
+ ["Angélica Zapata","$40000","Malbec Alta"],["El Enemigo","$-","Malbec"],["Mosquita Muerta","$-","Blend"],
+ ["Latitud 33","$11000","Malbec"],
+ ["Santa Julia","","","",[["Malbec","$9000"],["Dulce Tinto Natural","$11000"],["Blanco Chenin Dulce Natural","$11000"]]],
+ ["Trumpeter","$13000","Malbec"],["Cuatro monos locos","$11000","Malbec salvaje"],["Alambrado","$12000","Malbec"]]]
+];
+
+
+const $=id=>document.getElementById(id);
+const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const normalize=v=>String(v??'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
+const money=v=>'$'+Number(v||0).toLocaleString('es-AR');
+const parsePrice=v=>/^\$\s*\d[\d.,]*$/.test(v||'')?Number(v.replace(/[^0-9]/g,'')):null;
+let toastTimer;
+function notify(message){const n=$('notice');n.textContent=message;n.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>n.classList.remove('show'),2400);}
+// El dibujo de anillos reproduce la portada del menú original.
+let rings='';
+for(let k=0;k<10;k++){let d='',rx=70+k*40,ry=40+k*30;
+ for(let i=0;i<=60;i++){const a=Math.PI*i/60,w=1+.05*Math.sin(a*5+k)+.03*Math.sin(a*9+k*2);d+=(i?'L':'M')+(385+rx*Math.cos(a)*w).toFixed(1)+' '+(-30+ry*Math.sin(a)*w).toFixed(1);}
+ rings+='<path d="'+d+'"/>';}
+$('rings').innerHTML=rings;
+const row=(n,p,cls)=>'<div class="r '+(cls||'')+'"><span>'+esc(n)+'</span>'+(p?'<i class="dots"></i><b class="p">'+esc(p)+'</b>':'')+'</div>';
+const itemHTML=(it,si,ii)=>{const[n,p,d,f,v]=it;
+ const body=row(n,p)+(d?'<div class="d">'+esc(d)+'</div>':'')+(v?v.map(x=>row(x[0],x[1],'sub')).join(''):'');
+ const thumb=f?'<img class="th" loading="lazy" src="fotos/'+encodeURI(f)+'" alt="'+esc(n)+'" onerror="this.remove()">':'';
+ return '<div class="it'+(f?' f':'')+'" role="button" tabindex="0" aria-label="Seleccionar '+esc(n)+' para agregar al pedido" data-s="'+si+'" data-i="'+ii+'">'+thumb+'<div class="bd">'+body+'</div><span class="item-plus" aria-hidden="true">+</span></div>';
+};
+$('carta').innerHTML=S.map((s,si)=>'<section class="sec" id="s'+si+'"><h2>'+esc(s[0].toUpperCase())+'</h2>'+(s[1]?'<p class="note">'+esc(s[1])+'</p>':'')+'<div class="cols">'+s[3].map((it,ii)=>itemHTML(it,si,ii)).join('')+'</div></section>').join('')+
+ '<div id="noResults" class="no-results">No encontramos platos con esa búsqueda.</div>'+
+ '<div class="pie"><div class="logo"><span class="a">LOS</span><span class="b">TRONCOS</span><span class="c">RESTO BAR</span></div><p>Av. San Martín 2758 · Puerto Rico, Misiones</p></div>';
+$('nav').innerHTML='<button id="searchToggle" class="search-toggle" type="button" aria-expanded="false" aria-controls="searchArea">⌕ Buscar</button>'+S.map((s,i)=>'<a href="#s'+i+'">'+esc(s[2])+'</a>').join('');
+const navLinks=[...document.querySelectorAll('#nav a')];
+function clearSearch(){ $('searchInput').value='';filterMenu(); }
+navLinks.forEach(a=>a.addEventListener('click',e=>{e.preventDefault();if($('searchInput').value)clearSearch();document.getElementById(a.hash.slice(1))?.scrollIntoView({behavior:'smooth',block:'start'}); }));
+$('ver').addEventListener('click',()=>$('nav').scrollIntoView({behavior:'smooth',block:'start'}));
+$('searchToggle').addEventListener('click',()=>{const active=$('searchArea').classList.toggle('active');$('searchToggle').setAttribute('aria-expanded',String(active));if(active)$('searchInput').focus();else clearSearch();});
+$('clearSearch').addEventListener('click',()=>{clearSearch();$('searchInput').focus();});
+$('searchInput').addEventListener('input',filterMenu);
+$('searchInput').addEventListener('keydown',e=>{if(e.key==='Escape'){clearSearch();$('searchInput').blur();}});
+function filterMenu(){const query=normalize($('searchInput').value.trim());let found=0;
+ document.querySelectorAll('.sec').forEach((section,si)=>{let count=0;section.querySelectorAll('.it[data-s]').forEach(el=>{
+  const it=S[si][3][+el.dataset.i];const txt=normalize([S[si][0],it[0],it[2],...(it[4]||[]).flat()].join(' '));
+  const show=!query||txt.includes(query);el.hidden=!show;if(show){count++;found++;}
+ });section.hidden=Boolean(query&&!count);});
+ $('noResults').classList.toggle('show',Boolean(query&&!found));$('searchMeta').textContent=query?found+' resultado'+(found===1?'':'s')+' en la carta.':'Escribí para encontrar un plato.';
+}
+// Sin autocentrado del navegador por observador: evitamos saltos en el scroll y en el buscador.
+const io=new IntersectionObserver(entries=>{for(const e of entries){if(e.isIntersecting&&!e.target.hidden){navLinks.forEach(a=>a.classList.toggle('on',a.hash==='#'+e.target.id));}}},{rootMargin:'-15% 0px -75% 0px'});
+document.querySelectorAll('.sec').forEach(s=>io.observe(s));
+
+const STORAGE_KEY='los-troncos-cart-v4';
+let cart=[];
+try{let parsed=JSON.parse(localStorage.getItem(STORAGE_KEY)||'[]');if(Array.isArray(parsed))cart=parsed.filter(x=>x&&typeof x.key==='string'&&Number.isInteger(x.qty)&&x.qty>0&&x.qty<=99&&typeof x.name==='string'&&(x.price===null||(Number.isFinite(x.price)&&x.price>=0)));}catch(e){cart=[];}
+function persist(){try{localStorage.setItem(STORAGE_KEY,JSON.stringify(cart));}catch(e){/* El menú funciona también en modo privado */}}
+function cartSum(){return cart.reduce((sum,x)=>sum+(x.price??0)*x.qty,0);}
+function cartQty(){return cart.reduce((sum,x)=>sum+x.qty,0);}
+function renderCart(){
+ $('cartCount').textContent=cartQty();$('cartTotal').textContent=money(cartSum());$('checkout').setAttribute('aria-disabled',String(!cart.length));$('checkout').href=cart.length?makeWhatsAppUrl():'#';
+ const unpriced=cart.filter(x=>x.price===null);$('pendingPrices').textContent=unpriced.length?'Hay '+unpriced.length+' producto(s) con precio a consultar, no incluidos en el subtotal.':'';
+ $('cartList').innerHTML=cart.length?cart.map((x,i)=>'<div class="cart-item"><div class="cart-item-title"><span>'+esc(x.name)+'</span><span>'+(x.price===null?'Consultar':money(x.price*x.qty))+'</span></div>'+(x.variant?'<small>'+esc(x.variant)+'</small>':'')+(x.extra?'<small>'+esc(x.extra)+'</small>':'')+(x.notes?'<small>Nota: '+esc(x.notes)+'</small>':'')+'<div class="cart-controls"><div class="qty-group"><button type="button" data-index="'+i+'" data-delta="-1" aria-label="Quitar una unidad">−</button><strong>'+x.qty+'</strong><button type="button" data-index="'+i+'" data-delta="1" aria-label="Agregar una unidad">+</button></div><button class="remove-line" type="button" data-remove="'+i+'">Eliminar</button></div></div>').join(''):'<p class="cart-empty">Todavía no agregaste productos.<br>Tocá un plato de la carta para comenzar.</p>';
+ persist();
+}
+$('cartList').addEventListener('click',e=>{const btn=e.target.closest('button');if(!btn)return;
+ if(btn.dataset.remove!==undefined){cart.splice(Number(btn.dataset.remove),1);renderCart();return;}
+ if(btn.dataset.delta!==undefined){const x=cart[Number(btn.dataset.index)];if(!x)return;x.qty+=Number(btn.dataset.delta);if(x.qty<=0)cart.splice(Number(btn.dataset.index),1);if(x.qty>99)x.qty=99;renderCart();}
+});
+function openCart(){const pane=$('cartPanel');pane.classList.add('active');pane.setAttribute('aria-hidden','false');$('cartBackdrop').classList.add('active');$('cartFab').setAttribute('aria-expanded','true');document.body.style.overflow='hidden';$('cartClose').focus();}
+function closeCart(){const pane=$('cartPanel');pane.classList.remove('active');pane.setAttribute('aria-hidden','true');$('cartBackdrop').classList.remove('active');$('cartFab').setAttribute('aria-expanded','false');document.body.style.overflow='';$('cartFab').focus();}
+$('cartFab').addEventListener('click',openCart);$('cartClose').addEventListener('click',closeCart);$('cartBackdrop').addEventListener('click',closeCart);
+window.addEventListener('keydown',e=>{if(e.key==='Escape'&&$('cartPanel').classList.contains('active'))closeCart();});
+
+let selected={si:0,ii:0};
+function modalPrice(){const it=S[selected.si][3][selected.ii];const choice=$('dishVariant');const val=choice?Number(choice.value):null;return choice?parsePrice(it[4][val][1]):parsePrice(it[1]);}
+function updateModalPrice(){const price=modalPrice();$('dishPriceSummary').textContent=price===null?'Precio a consultar':money(price);}
+function openDish(si,ii){selected={si,ii};const[n,p,d,f,v]=S[si][3][ii],dlg=$('dlg');
+ const isInfo=(!p&&!v?.length&&(normalize(n)==='incluye'||S[si][0]==='Salsas'));
+ let choices=v?.length?'<div class="modal-field"><label for="dishVariant">Elegí una opción</label><select id="dishVariant">'+v.map((x,i)=>'<option value="'+i+'">'+esc(x[0])+' · '+esc(x[1]||'Consultar')+'</option>').join('')+'</select></div>':'';
+ let extra=n==='Coca-Cola - Sprite - Fanta - Pepsi'?'<div class="modal-field"><label for="dishExtra">Elegí la gaseosa</label><select id="dishExtra"><option>Coca-Cola</option><option>Sprite</option><option>Fanta</option><option>Pepsi</option></select></div>':'';
+ // El texto "Incluye" de Picadas es informativo, no un producto.
+ dlg.innerHTML=(f?'<img class="modal-image" src="fotos/'+encodeURI(f)+'" alt="'+esc(n)+'" onerror="this.remove()">':'')+
+ '<div class="x"><p class="modal-cat">'+esc(S[si][0])+'</p><h3>'+esc(n)+'</h3>'+(d?'<p class="modal-desc">'+esc(d)+'</p>':'')+choices+extra+
+ (!isInfo?'<div class="modal-field"><label for="dishQty">Cantidad</label><input id="dishQty" type="number" min="1" max="99" value="1" inputmode="numeric"></div><div class="modal-field"><label for="dishNotes">Indicaciones (opcional)</label><textarea id="dishNotes" rows="2" placeholder="Ej.: sin tomate"></textarea></div><div id="dishPriceSummary" class="modal-summary"></div>':'')+
+ '<div class="modal-actions"><button type="button" class="secondary" id="closeDish">Cerrar</button>'+(isInfo?'':'<button class="primary" type="button" id="addDish">Agregar al pedido</button>')+'</div></div>';
+ $('closeDish').onclick=()=>dlg.close();if(!isInfo){$('dishVariant')?.addEventListener('change',updateModalPrice);updateModalPrice();$('addDish').addEventListener('click',addDish);}
+ dlg.showModal();
+}
+function addDish(){const it=S[selected.si][3][selected.ii];const variantIndex=$('dishVariant')?Number($('dishVariant').value):-1;
+ const variant=variantIndex>=0?it[4][variantIndex][0]:'';const rawPrice=variantIndex>=0?it[4][variantIndex][1]:it[1];const price=parsePrice(rawPrice);
+ const extra=$('dishExtra')?.value||'';const qty=Number($('dishQty').value);if(!Number.isInteger(qty)||qty<1||qty>99){notify('Elegí una cantidad de 1 a 99.');$('dishQty').focus();return;}
+ const notes=$('dishNotes').value.trim().slice(0,300);const key=[selected.si,selected.ii,variantIndex,extra,notes].join('|');
+ const existing=cart.find(x=>x.key===key);if(existing){existing.qty=Math.min(99,existing.qty+qty);}else cart.push({key,name:it[0],variant,extra,notes,price,qty});
+ renderCart();$('dlg').close();notify('Agregado al pedido');
+}
+$('carta').addEventListener('click',e=>{const el=e.target.closest('.it[data-s]');if(el)openDish(Number(el.dataset.s),Number(el.dataset.i));});
+$('carta').addEventListener('keydown',e=>{if((e.key==='Enter'||e.key===' ')&&e.target.matches('.it[data-s]')){e.preventDefault();openDish(Number(e.target.dataset.s),Number(e.target.dataset.i));}});
+$('dlg').addEventListener('click',e=>{if(e.target===$('dlg'))$('dlg').close();});
+function buildWhatsAppMessage(){
+ const lines=['Hola, Los Troncos Resto Bar. Quisiera realizar el siguiente pedido:', ''];
+ cart.forEach((x,i)=>{lines.push((i+1)+'. '+x.qty+' × '+(x.extra||x.name)+(x.variant?' — '+x.variant:'')+' — '+(x.price===null?'precio a consultar':money(x.price*x.qty)));if(x.notes)lines.push('   Observaciones: '+x.notes);});
+ lines.push('', 'Subtotal de productos con precio: '+money(cartSum()));
+ if(cart.some(x=>x.price===null))lines.push('Hay productos con precio a consultar.');
+ const name=$('customerName').value.trim();if(name)lines.push('Nombre: '+name);
+ lines.push('Tipo de pedido: '+$('orderType').value);
+ if($('orderType').value==='Delivery'){
+  lines.push('Dirección de entrega: '+$('deliveryAddress').value.trim());
+  const reference=$('deliveryReference').value.trim();if(reference)lines.push('Referencia: '+reference);
+  const phone=$('deliveryPhone').value.trim();if(phone)lines.push('Teléfono de contacto: '+phone);
+ }
+ const note=$('orderNotes').value.trim();if(note)lines.push('Indicaciones generales: '+note);
+ lines.push('', 'Quedo a la espera de confirmación de disponibilidad y precio final.');
+ return lines.join('\n');
+}
+$('orderType').addEventListener('change',()=>{
+ const delivery=$('orderType').value==='Delivery';
+ $('deliveryFields').hidden=!delivery;
+ $('deliveryAddress').required=delivery;
+ $('deliveryError').hidden=true;
+});
+$('deliveryAddress').addEventListener('input',()=>{$('deliveryError').hidden=true;$('deliveryAddress').removeAttribute('aria-invalid');});
+function makeWhatsAppUrl(){return 'https://wa.me/'+WHATSAPP+'?text='+encodeURIComponent(buildWhatsAppMessage());}
+function validateOrder(){
+ if(!cart.length){notify('Primero agregá un producto al carrito.');return false;}
+ if($('orderType').value==='Delivery'&&!$('deliveryAddress').value.trim()){
+  $('deliveryError').hidden=false;
+  $('deliveryAddress').setAttribute('aria-invalid','true');
+  $('deliveryAddress').focus();return false;
+ }
+ return true;
+}
+// Enlace nativo: evita ventanas emergentes creadas por JavaScript.
+$('checkout').addEventListener('click',e=>{
+ if(!validateOrder()){e.preventDefault();return;}
+ $('checkout').href=makeWhatsAppUrl();
+});
+// Alternativa cuando el navegador bloquea WhatsApp o el usuario está sin la aplicación.
+$('copyOrder').addEventListener('click',async()=>{
+ if(!validateOrder())return;
+ const msg=buildWhatsAppMessage();
+ try{
+  if(navigator.clipboard&&window.isSecureContext){await navigator.clipboard.writeText(msg);}
+  else {const t=document.createElement('textarea');t.value=msg;t.style.position='fixed';t.style.left='-9999px';document.body.appendChild(t);t.select();if(!document.execCommand('copy'))throw Error('No se pudo copiar');t.remove();}
+  notify('Pedido copiado. Pegalo en WhatsApp.');
+ }catch(e){
+  const t=document.createElement('textarea');t.value=msg;t.style.width='100%';t.style.minHeight='130px';t.setAttribute('aria-label','Detalle del pedido para copiar');$('waHelp').after(t);t.focus();t.select();notify('Seleccioná el texto y copialo.');
+ }
+});
+['customerName','orderType','deliveryAddress','deliveryReference','deliveryPhone','orderNotes'].forEach(id=>{
+ $(id).addEventListener('input',()=>{if(cart.length)$('checkout').href=makeWhatsAppUrl();});
+ $(id).addEventListener('change',()=>{if(cart.length)$('checkout').href=makeWhatsAppUrl();});
+});
+
+renderCart();
+
+</script>
+</body>
+</html>
